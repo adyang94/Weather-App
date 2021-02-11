@@ -1,4 +1,12 @@
 // CONST AND VARIABLES--------------------------------------------
-console.log('hi');
+let long;
+let lat;
 // FUNCTIONS------------------------------------------------------
 // SCRIPT---------------------------------------------------------
+window.onload = () => {
+  if (navigator.geolocation) {
+    navigator.geolocation.getCurrentPosition((position) => {
+
+    });
+  }
+};
