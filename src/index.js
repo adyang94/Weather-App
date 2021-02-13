@@ -4,6 +4,7 @@ let lat;
 let currentTemp;
 let currentDescription;
 let currentTimezone;
+let currentIcon;
 const temperatureDescription = document.querySelector('.temperature-description');
 const temperatureDegree = document.querySelector('.temperature-degree');
 const locationTimezone = document.querySelector('.location-timezone');
@@ -24,6 +25,7 @@ window.onload = () => {
       fetch(api, { mode: 'cors' })
         .then((response) => response.json())
         .then((data) => {
+          // RETRIEVING DATA FROM API
           console.log(data);
           currentTemp = data.current.temp - 273;
           temperatureDegree.innerHTML = Math.floor(currentTemp);
@@ -33,7 +35,14 @@ window.onload = () => {
 
           currentTimezone = data.timezone;
           locationTimezone.innerHTML = `Timezone: ${currentTimezone}`;
+
+          currentIcon = data.current.weather[0].main;
         });
     });
+  }
+
+  function setIcons(icon, iconID) {
+    const skycons = new skycons({ color: 'pink' });
+    const currentIcon = currentIcon.replace(/-/g, '_');
   }
 };
