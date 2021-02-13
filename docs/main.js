@@ -15,6 +15,19 @@ const locationTimezone = document.querySelector('.location-timezone');
 // FUNCTIONS------------------------------------------------------
 // SCRIPT---------------------------------------------------------
 window.onload = () => {
+  function setIcons(icon, iconID) {
+    const skycons = new Skycons({ color: 'white' });
+    // MATCHING API ICON NAMES WITH SKYCONS
+    if (icon === 'Clear') {
+      icon = 'clear_day';
+    } else if (icon === 'Clouds') {
+      icon = 'cloudy';
+    }
+    const currentSkycon = icon.replace(/ /g, '_').toUpperCase();
+    console.log(currentSkycon);
+    skycons.play();
+    return skycons.set(iconID, Skycons[currentSkycon]);
+  }
   if (navigator.geolocation) {
     navigator.geolocation.getCurrentPosition((position) => {
       long = position.coords.longitude;
@@ -41,13 +54,11 @@ window.onload = () => {
           locationTimezone.innerHTML = `Timezone: ${currentTimezone}`;
 
           currentIcon = data.current.weather[0].main;
+
+          // SET ICON
+          setIcons(currentIcon, document.querySelector('.icon'));
         });
     });
-  }
-
-  function setIcons(icon, iconID) {
-    const skycons = new skycons({ color: 'pink' });
-    const currentIcon = currentIcon.replace(/-/g, '_');
   }
 };
 
