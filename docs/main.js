@@ -56,7 +56,7 @@ window.onload = () => {
 
           currentIcon = data.weather[0].main;
 
-          // SET ICONn
+          // SET ICON
           setIcons(currentIcon, document.querySelector('.icon'));
         });
     });
