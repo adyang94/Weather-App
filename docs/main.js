@@ -45,7 +45,7 @@ window.onload = () => {
         .then((data) => {
           // RETRIEVING DATA FROM API
           console.log(data);
-          currentTemp = data.main.temp - 273;
+          currentTemp = (data.main.temp - 273) * (9 / 5) + 32;
           temperatureDegree.innerHTML = Math.floor(currentTemp);
 
           currentDescription = data.weather[0].main;
