@@ -48,7 +48,7 @@ window.onload = () => {
           currentTemp = (data.main.temp - 273) * (9 / 5) + 32;
           temperatureDegree.innerHTML = Math.floor(currentTemp);
 
-          currentDescription = data.weather[0].main;
+          currentDescription = data.weather[0].description;
           temperatureDescription.innerHTML = currentDescription;
 
           currentTimezone = data.name;
