@@ -8,6 +8,8 @@ let currentIcon;
 const temperatureDescription = document.querySelector('.temperature-description');
 const temperatureDegree = document.querySelector('.temperature-degree');
 const locationTimezone = document.querySelector('.location-timezone');
+const searchLocation = document.querySelector('#searchLocation');
+const submitBtn = document.querySelector('#submitBtn');
 // FUNCTIONS------------------------------------------------------
 function setIcons(icon, iconID) {
   const skycons = new Skycons({ color: 'white' });
