@@ -5,4 +5,5 @@ Location information will be gathered through an input bar and that input should
 
 
 The display of the weather will consist of a main container that has the weather, humidity, wind speed, actual feel, and chance of precipitation.  It should also indicate the searched location.  Perhaps, I will include a localStorage option to cache the last few locations searched and have them automatically pull up and shown for the user.  This can be stored in a library index style.
+
 https://adyang94.github.io/Weather-App/
