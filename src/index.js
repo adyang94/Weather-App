@@ -11,6 +11,7 @@ const temperatureDegree = document.querySelector('.temperature-degree');
 const locationTimezone = document.querySelector('.location-timezone');
 const searchLocation = document.querySelector('#searchLocation');
 const submitBtn = document.querySelector('#submitBtn');
+
 // FUNCTIONS------------------------------------------------------
 function setIcons(icon, iconID) {
   const skycons = new Skycons({ color: 'white' });
@@ -81,5 +82,3 @@ function fetchWeatherByLocation() {
 window.onload = () => {
   fetchWeatherByCoordinates();
 };
-
-// SET ICON
