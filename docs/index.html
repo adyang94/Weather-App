@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <link rel="resetStyleSheet" href="./reset.css">
+  <link rel="stylesheet" href="./style.css">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Weather Page</title>
+</head>
+<body>
+ 
+  <form class="searchbarForm">
+    <label for="searchLocation">Location:</label>
+    <input type="text" name="searchLocation" id = "searchLocation">
+    <button type="submit" id="submitBtn">Find</button>
+  </form>
+
+  <div class="location">
+    <h1 class="location-timezone">Location</h1>
+    <canvas class="icon" width="75vw" height="75vh"></canvas>
+  </div>
+  
+  <div class="temperature">
+    <div class="degree-section">
+      <h2 class="temperature-degree">32</h2>
+      <span>F</span>
+    </div>
+
+    <div class="temperature-description">COLD</div>
+  </div>
+  <script src="skycons.js"></script>
+  <script src="./main.js"></script>
+</body>
+</html>
