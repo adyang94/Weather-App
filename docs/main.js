@@ -13,17 +13,27 @@ let currentIcon;
 const temperatureDescription = document.querySelector('.temperature-description');
 const temperatureDegree = document.querySelector('.temperature-degree');
 const locationTimezone = document.querySelector('.location-timezone');
-const searchLocation = document.querySelector('#searchLocation');
+const searchBox = document.querySelector('#searchLocation');
 const submitBtn = document.querySelector('#submitBtn');
+
 // FUNCTIONS------------------------------------------------------
 function setIcons(icon, iconID) {
   const skycons = new Skycons({ color: 'white' });
   // MATCHING API ICON NAMES WITH SKYCONS
-  if (icon === 'Clear') {
-    icon = 'clear_day';
-  } else if (icon === 'Clouds') {
-    icon = 'cloudy';
+  switch (icon) {
+    case 'Clear':
+      icon = 'clear day';
+      break;
+    case 'Clouds':
+      icon = 'cloudy';
+      break;
+    case 'Mist':
+      icon = 'fog';
+      break;
+    default:
+      break;
   }
+
   const currentSkycon = icon.replace(/ /g, '_').toUpperCase();
   console.log(currentSkycon);
   skycons.play();
@@ -45,9 +55,27 @@ function getCoordinates(resolve, reject) {
     reject(Error);
   }
 }
+function submitLocation() {
+  const searchLocation = searchBox.value;
+  console.log({ searchLocation });
+  return searchLocation;
+}
+function displayWeather(data) {
+  console.log(data); // to check format of data being returned.
 
+  currentTemp = (data.main.temp - 273) * (9 / 5) + 32;
+  temperatureDegree.innerHTML = Math.floor(currentTemp);
+
+  currentDescription = data.weather[0].description;
+  temperatureDescription.innerHTML = currentDescription;
+
+  currentTimezone = data.name;
+  locationTimezone.innerHTML = `${currentTimezone}`;
+
+  currentIcon = data.weather[0].main;
+}
 async function fetchWeatherByCoordinates() {
-  // GET COORDINATES
+  // GETTING COORDINATES REQUIRES BROWSER INPUT. DOES IT BECOME ASYNCHRONOUS?
   const promise = new Promise((resolve, reject) => {
     getCoordinates(resolve, reject);
   });
@@ -59,18 +87,7 @@ async function fetchWeatherByCoordinates() {
     fetch(api, { mode: 'cors' })
       .then((response) => response.json()) // unpackage JSON API file
       .then((data) => {
-        console.log(data); // to check format of data being returned.
-
-        currentTemp = (data.main.temp - 273) * (9 / 5) + 32;
-        temperatureDegree.innerHTML = Math.floor(currentTemp);
-
-        currentDescription = data.weather[0].description;
-        temperatureDescription.innerHTML = currentDescription;
-
-        currentTimezone = data.name;
-        locationTimezone.innerHTML = `${currentTimezone}`;
-
-        currentIcon = data.weather[0].main;
+        displayWeather(data);
         setIcons(currentIcon, document.querySelector('.icon'));
       });
   })
@@ -78,15 +95,23 @@ async function fetchWeatherByCoordinates() {
       setTimeout(() => console.log(message), 1000);
     });
 }
-function fetchWeatherByLocation() {
-
+async function fetchWeatherByLocation(e) {
+  e.preventDefault();
+  const searchLocation = submitLocation();
+  const api = `https://api.openweathermap.org/data/2.5/weather?q=${searchLocation}&appid=7250132cebfb608efae470e5b346fac0`;
+  await fetch(api, { mode: 'cors' })
+    .then((response) => response.json())
+    .then((data) => {
+      console.log(data);
+      displayWeather(data);
+      setIcons(currentIcon, document.querySelector('.icon'));
+    });
 }
 // SCRIPT---------------------------------------------------------
 window.onload = () => {
   fetchWeatherByCoordinates();
+  submitBtn.addEventListener('click', fetchWeatherByLocation);
 };
-
-// SET ICON
 
 /******/ })()
 ;
