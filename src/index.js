@@ -59,16 +59,16 @@ function submitLocation() {
 function displayWeather(data) {
   console.log(data); // to check format of data being returned.
 
-  currentTemp = (data.main.temp - 273) * (9 / 5) + 32;
+  currentTemp = data.current.temp_f;
   temperatureDegree.innerHTML = Math.floor(currentTemp);
 
-  currentDescription = data.weather[0].description;
+  currentDescription = data.current.condition.text;
   temperatureDescription.innerHTML = currentDescription;
 
   currentTimezone = data.name;
-  locationTimezone.innerHTML = `${currentTimezone}`;
+  locationTimezone.innerHTML = `${data.location.name}, ${data.location.region}`;
 
-  currentIcon = data.weather[0].main;
+  currentIcon = currentDescription;
 }
 async function fetchWeatherByCoordinates() {
   // GETTING COORDINATES REQUIRES BROWSER INPUT. DOES IT BECOME ASYNCHRONOUS?
@@ -77,7 +77,7 @@ async function fetchWeatherByCoordinates() {
   });
 
   await promise.then(() => {
-    const api = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${long}&exclude=hourly,daily&appid=7250132cebfb608efae470e5b346fac0`;
+    const api = `http://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${lat},${long}`;
     // THIS MAY BE NEEDED FOR HOURLY OR FORECASTED WEATHER IF NEEDED. const api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,daily&appid=7250132cebfb608efae470e5b346fac0`;
 
     fetch(api, { mode: 'cors' })
@@ -94,7 +94,7 @@ async function fetchWeatherByCoordinates() {
 async function fetchWeatherByLocation(e) {
   e.preventDefault();
   const searchLocation = submitLocation();
-  const api = `https://api.openweathermap.org/data/2.5/weather?q=${searchLocation}&appid=7250132cebfb608efae470e5b346fac0`;
+  const api = `http://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${searchLocation}`;
   await fetch(api, { mode: 'cors' })
     .then((response) => response.json())
     .then((data) => {
