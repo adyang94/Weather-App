@@ -18,6 +18,7 @@ function setIcons(icon, iconID) {
   // MATCHING API ICON NAMES WITH SKYCONS
   switch (icon) {
     case 'Clear':
+    case 'Sunny':
       icon = 'clear day';
       break;
     case 'Clouds':
