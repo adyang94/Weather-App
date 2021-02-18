@@ -1,3 +1,4 @@
+/* eslint-disable no-constant-condition */
 /* eslint-disable no-use-before-define */
 // CONST AND VARIABLES--------------------------------------------
 let long;
@@ -5,7 +6,7 @@ let lat;
 let currentTemp;
 let currentDescription;
 let currentTimezone;
-let currentIcon;
+let currentCode;
 const temperatureDescription = document.querySelector('.temperature-description');
 const temperatureDegree = document.querySelector('.temperature-degree');
 const locationTimezone = document.querySelector('.location-timezone');
@@ -13,26 +14,46 @@ const searchBox = document.querySelector('#searchLocation');
 const submitBtn = document.querySelector('#submitBtn');
 
 // FUNCTIONS------------------------------------------------------
-function setIcons(icon, iconID) {
+function setIcons(code, iconID) {
+  // eslint-disable-next-line no-undef
   const skycons = new Skycons({ color: 'white' });
   // MATCHING API ICON NAMES WITH SKYCONS
-  switch (icon) {
-    case 'Clear':
-    case 'Sunny':
-      icon = 'clear day';
-      break;
-    case 'Clouds':
-      icon = 'cloudy';
-      break;
-    case 'Mist':
-      icon = 'fog';
-      break;
-    default:
-      break;
+  let icon;
+
+  const clearCodes = [1000];
+  const cloudyCodes = [1003, 1006, 1009];
+  const rainCodes = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282];
+  const snowCodes = [1066, 1114, 1117, 1210, 1213, 1216, 1219, 1222, 1225, 1255, 1258, 1279, 1282];
+  const fogCodes = [1147, 1030, 1135];
+  const hailCodes = [1237, 1261, 1264];
+  const sleetCodes = [1069, 1072, 1168, 1171, 1204, 1207, 1249, 1252];
+  const thunderCodes = [1087];
+  const thunderShowerNightCodes = [1273, 1276];
+
+  if (clearCodes.includes(code)) {
+    icon = 'clear_day';
+  // } else if (code === 1003 , code === 1006 , code === 1009) {
+  //   icon = 'cloudy';
+  } else if (cloudyCodes.includes(code)) {
+    icon = 'cloudy';
+    console.log('hello');
+  } else if (rainCodes.includes(code)) {
+    icon = 'rain';
+  } else if (snowCodes.includes(code)) {
+    icon = 'snow';
+  } else if (fogCodes.includes(code)) {
+    icon = 'fog';
+  } else if (hailCodes.includes(code)) {
+    icon = 'hail';
+  } else if (sleetCodes.includes(code)) {
+    icon = 'sleet';
+  } else if (thunderCodes.includes(code)) {
+    icon = 'thunder';
+  } else if (thunderShowerNightCodes.includes(code)) {
+    icon = 'thunder-showers-night';
   }
 
   const currentSkycon = icon.replace(/ /g, '_').toUpperCase();
-  console.log(currentSkycon);
   skycons.play();
   // eslint-disable-next-line no-undef
   return skycons.set(iconID, Skycons[currentSkycon]);
@@ -69,7 +90,7 @@ function displayWeather(data) {
   currentTimezone = data.name;
   locationTimezone.innerHTML = `${data.location.name}, ${data.location.region}`;
 
-  currentIcon = currentDescription;
+  currentCode = data.current.condition.code;
 }
 async function fetchWeatherByCoordinates() {
   // GETTING COORDINATES REQUIRES BROWSER INPUT. DOES IT BECOME ASYNCHRONOUS?
@@ -85,7 +106,7 @@ async function fetchWeatherByCoordinates() {
       .then((response) => response.json()) // unpackage JSON API file
       .then((data) => {
         displayWeather(data);
-        setIcons(currentIcon, document.querySelector('.icon'));
+        setIcons(currentCode, document.querySelector('.icon'));
       });
   })
     .catch((message) => {
@@ -101,7 +122,7 @@ async function fetchWeatherByLocation(e) {
     .then((data) => {
       console.log(data);
       displayWeather(data);
-      setIcons(currentIcon, document.querySelector('.icon'));
+      setIcons(currentCode, document.querySelector('.icon'));
     });
 }
 // SCRIPT---------------------------------------------------------
