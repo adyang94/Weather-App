@@ -81,7 +81,7 @@ async function fetchWeatherByCoordinates() {
   });
 
   await promise.then(() => {
-    const api = `http://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${lat},${long}`;
+    const api = `https://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${lat},${long}`;
     // THIS MAY BE NEEDED FOR HOURLY OR FORECASTED WEATHER IF NEEDED. const api = `https://api.openweathermap.org/data/2.5/onecall?lat=${lat}&lon=${long}&exclude=hourly,daily&appid=7250132cebfb608efae470e5b346fac0`;
 
     fetch(api, { mode: 'cors' })
@@ -98,7 +98,7 @@ async function fetchWeatherByCoordinates() {
 async function fetchWeatherByLocation(e) {
   e.preventDefault();
   const searchLocation = submitLocation();
-  const api = `http://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${searchLocation}`;
+  const api = `https://api.weatherapi.com/v1/current.json?key=f13b839821d04f97bf1145422211802&q=${searchLocation}`;
   await fetch(api, { mode: 'cors' })
     .then((response) => response.json())
     .then((data) => {
